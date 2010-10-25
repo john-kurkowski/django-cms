@@ -218,7 +218,8 @@
 	        
 	        // don't assume admin site is root-level
 	        // grab base url to construct full absolute URLs
-	        admin_base_url = document.URL.split("/cms/page/")[0] + "/";
+	        var app_model_label = $("body").data("app_model_label");
+	        admin_base_url = document.URL.split(app_model_label)[0] + "/";
 	        
 			// publish
 			if(jtarget.hasClass("publish-checkbox")) {

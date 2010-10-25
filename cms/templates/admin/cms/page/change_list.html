@@ -47,6 +47,10 @@
 		{% if not cl.is_filtered %}
 			initTree();
 		{% endif %}		
+
+		{% if opts %}
+		   	$('body').data('app_model_label', '/{{ opts.app_label }}/{{ opts.module_name }}/');
+		{% endif %}
 	});
 	
 	showchangelistfilter = function(){
