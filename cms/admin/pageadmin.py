@@ -181,6 +181,7 @@ class PageAdmin(model_admin):
             pat(r'^([0-9]+)/copy-page/$', self.copy_page),
             pat(r'^([0-9]+)/change-status/$', self.change_status),
             pat(r'^([0-9]+)/change-navigation/$', self.change_innavigation),
+            pat(r'^([0-9]+)/change-field/$', self.change_field),
             pat(r'^([0-9]+)/jsi18n/$', self.redirect_jsi18n),
             pat(r'^([0-9]+)/permissions/$', self.get_permissions),
             pat(r'^([0-9]+)/moderation-states/$', self.get_moderation_states),
@@ -1039,6 +1040,21 @@ class PageAdmin(model_admin):
             page.save(force_state=Page.MODERATOR_NEED_APPROVEMENT)
             return render_admin_menu_item(request, page)
         return HttpResponseForbidden(_("You do not have permission to change this page's in_navigation status"))
+
+    def change_field(self, request, page_id):
+        """
+        Change the value of a field on a page
+        """
+        if request.method != 'POST':
+            return HttpResponseNotAllowed
+        field = request.POST.get('field', '')
+        page = get_object_or_404(Page, pk=page_id)
+        if page.has_change_permission(request):
+            if field in ('login_required',):
+                setattr(page, field, not getattr(page, field))
+                page.save(force_state=Page.MODERATOR_NEED_APPROVEMENT)
+                return render_admin_menu_item(request, page)
+        return HttpResponseForbidden(_("You do not have permission to change this page's %(field)s status") % {'field': field})
 
     @create_on_success
     def add_plugin(self, request):

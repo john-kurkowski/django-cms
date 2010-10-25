@@ -237,6 +237,14 @@
 				e.stopPropagation();
 	            return true;
 	        }
+
+	        // login required
+	        if(jtarget.hasClass("login_required-checkbox")) {
+	            var pageId = jtarget.attr("name").split("-")[1];
+	            reloadItem(jtarget, admin_base_url + "cms/page/" + pageId + "/change-field/", { field: "login_required" });
+	            e.stopPropagation();
+	            return true;
+	        }
 			
 			// moderation
 			if(jtarget.hasClass("moderator-checkbox")) {

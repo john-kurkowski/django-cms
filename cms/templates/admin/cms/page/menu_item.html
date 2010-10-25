@@ -43,7 +43,17 @@
 			{% endif %}
 			{% if has_delete_permission %}<a href="{{ page.id }}/delete/" title="{% trans "Delete" %}" class="deletelink"><span>{% trans "delete" %}</span></a>{% endif %}
 		</div>	
-		
+
+		<div class="col-navigation">
+		    {% if page.login_required %}
+		        <img alt="True" src="{% admin_media_prefix %}img/admin/icon-yes.gif"/>	
+		        {% if has_change_permission %}<input type="checkbox" class="login_required-checkbox" name="login_required-{{ page.id }}" checked="checked" value="1" />{% endif %}
+		    {% else %}
+		        <img alt="False" src="{% admin_media_prefix %}img/admin/icon-no.gif" />
+		        {% if has_change_permission %}<input type="checkbox" class="login_required-checkbox" name="login_required-{{ page.id }}" value="0" />{% endif %}
+		    {% endif%}
+		</div>
+
 		<div class="col-navigation">
 			{% if page.in_navigation %}<label>
 				<img alt="True" src="{% admin_media_prefix %}img/admin/icon-yes.gif"/>	
